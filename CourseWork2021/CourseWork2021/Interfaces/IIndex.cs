@@ -8,7 +8,7 @@ namespace CourseWork2021.Interfaces
     interface IIndex
     {
         ConcurrentDictionary<string, List<string>> IndexDictionary { get; set; }
-        void AddKey(string word, string file);
+        void TryAddKey(string word, string file);
         List<string> GetIndexFiles(string word);
     }
 }
