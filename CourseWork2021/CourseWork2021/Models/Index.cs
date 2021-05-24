@@ -6,9 +6,10 @@ using System.Linq;
 
 namespace CourseWork2021
 {
-    class Index : IIndex
+    public class Index : IIndex
     {
-        public ConcurrentDictionary<string, List<string>> IndexDictionary { get; set; }
+        public ConcurrentDictionary<string, List<string>> IndexDictionary { get;} = new();
+
  
         public void TryAddKey(string word, string file)
         {
@@ -17,13 +18,13 @@ namespace CourseWork2021
 
         public List<string> GetIndexFiles(string word)
         {
-            if (IndexDictionary.Keys.Any(key => key.Contains(word)))
+            if (IndexDictionary.ContainsKey(word))
             {
                 return IndexDictionary[word];
             }
             else
             {
-                throw new ArgumentException("such word doesn't exist"); 
+                return new List<string> {};
             }
         }
     }
