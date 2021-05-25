@@ -6,10 +6,11 @@ namespace CourseWork2021
 {
     class Program
     {
+        public static int countOfThreads = 10;
         static void Main(string[] args)
         {
             TimerService timerService = new();
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= countOfThreads; i++)
             {
                 timerService.MeasureTimeParallelThreadsAsync(i);
             }
