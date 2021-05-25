@@ -30,7 +30,8 @@ namespace Client
                 while (answer)
                 {
                     InfoEcxchange();
-                    Console.WriteLine("\nЖелаешь еще почпокать? (Да - 1 /Нет - все остальное)");
+                    Print("Do you want to continue? (No - 0 /Yes - others)", ConsoleColor.DarkMagenta);
+                    Console.Write("\t");
                     string a = Console.ReadLine().Trim();
                     SendInfo(a);
                     answer = a != "0";
@@ -46,14 +47,28 @@ namespace Client
 
         private void InfoEcxchange()
         {
-            Console.WriteLine("Enter a word you want to find");
+            Print("Enter a word you want to find", ConsoleColor.DarkBlue);
+            Console.Write("\t");
             string word = Console.ReadLine();
-            SendInfo(word);
-            List<string> fileList = JsonConvert.DeserializeObject<List<string>>(ReceiveData());
-            foreach (var item in fileList)
+            string[] words = (string[])word.Split(new[] { ' ', ',', '.', '\"', ')', '(', ':', ';', '-', '[', ']', '%', '!', '?', '*', '<', '>' }, StringSplitOptions.RemoveEmptyEntries);
+            if(words.Length > 1)
             {
-                Console.WriteLine(item);
+                _ = words.Distinct();
             }
+            SendInfo(JsonConvert.SerializeObject(words));
+            List<string> fileList = JsonConvert.DeserializeObject<List<string>>(ReceiveData());
+            if(fileList.Count == 0)
+            {
+                Print($"Word {word} was not found", ConsoleColor.Red);
+            }
+            else
+            {
+                foreach (var item in fileList)
+                {
+                    Print(item + "\n", ConsoleColor.DarkGray);
+                }
+            }
+
         }
         private string ReceiveData() 
         {
@@ -68,6 +83,12 @@ namespace Client
         {
             byte[] data = Encoding.Unicode.GetBytes(info);
             socket.Send(BitConverter.GetBytes(data.Length).Concat(data).ToArray());
+        }
+        private void Print(string toPrint, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine("\t"+toPrint);
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }
