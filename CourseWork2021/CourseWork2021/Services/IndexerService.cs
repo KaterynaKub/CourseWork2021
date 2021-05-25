@@ -19,7 +19,6 @@ namespace CourseWork2021
             CountOfThreads = countThreads;
             RootDir = root;
         }
-
         public IEnumerable<string> GetFileNames()
         {
             IEnumerable<string> files = Directory.EnumerateFiles(RootDir, "*.txt", SearchOption.AllDirectories);
@@ -39,18 +38,15 @@ namespace CourseWork2021
                 var filesStep = fileNames.Skip(i * step).Take(step);
                 tasks[i] = Task.Run(() => CreateIndex(filesStep));
             }
-
             await Task.WhenAll(tasks);
-
         }
-
         private void CreateIndex(IEnumerable<string> files)
         {
             foreach (var file in files)
             {
                 if (File.Exists(file))
                 {
-                    string result = File.ReadAllText(file, Encoding.UTF8);
+                    string result = File.ReadAllText(file);
                     List<string> words = result.Split(new[]{' ', ',', '.', '\"', ')', '(', ':', ';', '-','[',']','%','!','?','*','<','>'},StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
                     foreach (var word in words)
                     {
@@ -58,7 +54,6 @@ namespace CourseWork2021
                     }
                 }
             }
-            Console.WriteLine("Finished successfully");
         }
 
         public List<string> GetFilesByWord(string word)

@@ -15,7 +15,6 @@ namespace CourseWork2021
         {
             IndexDictionary.AddOrUpdate(word,new List<string> { file },(key,value)=>value.Append(file).ToList());
         }
-
         public List<string> GetIndexFiles(string word)
         {
             if (IndexDictionary.ContainsKey(word))
