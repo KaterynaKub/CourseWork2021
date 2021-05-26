@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CourseWork2021
@@ -30,7 +31,7 @@ namespace CourseWork2021
             IEnumerable<string> fileNames = GetFileNames();
             int step = (int)Math.Ceiling((double)fileNames.Count() / CountOfThreads);
             Index = new Index();
-
+           
             Task[] tasks = new Task[CountOfThreads];
 
             for (int i = 0; i < CountOfThreads; i++)
@@ -56,9 +57,20 @@ namespace CourseWork2021
             }
         }
 
-        public List<string> GetFilesByWord(string word)
+        public IEnumerable<string> GetFilesByWord(string word)
         {
             return Index.GetIndexFiles(word);
+        }
+
+        public IEnumerable<string> GetFilesByWords(string[] words)
+        {
+            IEnumerable<string> result = GetFilesByWord(words.First());
+            foreach (var word in words.Skip(1))
+            {
+                IEnumerable<string> files = GetFilesByWord(word);
+                result = result.Intersect(files);
+            }
+            return result;
         }
     }
 }

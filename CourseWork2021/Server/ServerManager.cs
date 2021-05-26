@@ -25,15 +25,16 @@ namespace Server
         }
         public void TalkToUser()
         {
+            Print("New client accepted", ConsoleColor.DarkYellow);
             bool status = true;
             while (status)
             {
-                Console.WriteLine("wait");
+                Print($"wait for client answer", ConsoleColor.Green);
                 InfoExchange();
                 string continues = ReceiveData();
                 if(continues == "0")
                 {
-                    Console.WriteLine("goodbye!");
+                    Print("goodbye!", ConsoleColor.DarkBlue);
                     status = false;
                 }
             }
@@ -43,16 +44,17 @@ namespace Server
 
         private void InfoExchange()
         {
-            string answer = ReceiveData();
-            List<string> files = indexerService.GetFilesByWord(answer);
-            if (files.Count == 0)
+            string[] answer = JsonConvert.DeserializeObject<string[]>(ReceiveData());
+            IEnumerable<string> files;
+            if (answer.Length > 1)
             {
-                SendData($"There is no files including {answer} word");
+                files = indexerService.GetFilesByWords(answer);
             }
             else
             {
-                SendData(JsonConvert.SerializeObject(files));
+                files = indexerService.GetFilesByWord(answer.First());
             }
+            SendData(JsonConvert.SerializeObject(files));
         }
 
         private void SendData(string strData)
@@ -71,6 +73,13 @@ namespace Server
             socket.Receive(data);
             string result = Encoding.Unicode.GetString(data); 
             return result;
+        }
+
+        private void Print(string toPrint, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(toPrint);
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }
