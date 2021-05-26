@@ -5,10 +5,10 @@ using System.Text;
 
 namespace CourseWork2021.Interfaces
 {
-    interface IIndex
+    public interface IIndex
     {
         ConcurrentDictionary<string, IEnumerable<string>> IndexDictionary { get; }
-        void TryAddKey(string word, string file);
+        void AddKey(string word, string file);
         IEnumerable<string> GetIndexFiles(string word);
     }
 }
