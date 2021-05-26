@@ -32,9 +32,9 @@ namespace Client
                     InfoEcxchange();
                     Print("Do you want to continue? (No - 0 /Yes - others)", ConsoleColor.DarkMagenta);
                     Console.Write("\t");
-                    string a = Console.ReadLine().Trim();
-                    SendInfo(a);
-                    answer = a != "0";
+                    string input = Console.ReadLine().Trim();
+                    SendInfo(input);
+                    answer = input != "0";
                 }
                 socket.Shutdown(SocketShutdown.Both);
                 socket.Close();
@@ -49,8 +49,8 @@ namespace Client
         {
             Print("Enter a word you want to find", ConsoleColor.DarkBlue);
             Console.Write("\t");
-            string word = Console.ReadLine();
-            string[] words = (string[])word.Split(new[] { ' ', ',', '.', '\"', ')', '(', ':', ';', '-', '[', ']', '%', '!', '?', '*', '<', '>' }, StringSplitOptions.RemoveEmptyEntries);
+            string input = Console.ReadLine();
+            string[] words = input.ToLower().Split(new[] { ' ', ',', '.', '\"', ')', '(', ':', ';', '-', '[', ']', '%', '!', '?', '*', '<', '>' }, StringSplitOptions.RemoveEmptyEntries);
             if(words.Length > 1)
             {
                 _ = words.Distinct();
@@ -59,7 +59,7 @@ namespace Client
             List<string> fileList = JsonConvert.DeserializeObject<List<string>>(ReceiveData());
             if(fileList.Count == 0)
             {
-                Print($"Word {word} was not found", ConsoleColor.Red);
+                Print($"Input \"{input}\" was not found", ConsoleColor.Red);
             }
             else
             {
