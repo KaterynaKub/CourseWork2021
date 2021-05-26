@@ -17,7 +17,7 @@ namespace CourseWork2021
             CompareService compareService = new();
             bool areEquel = CompareService.Compare();
             Console.Write("Dictionaries are ");
-            Console.Write(areEquel ? "Equel" : "Not equel");
+            Console.WriteLine(areEquel ? "Equel" : "Not equel");
         }
     }
 }

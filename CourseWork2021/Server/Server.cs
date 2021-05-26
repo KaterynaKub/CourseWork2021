@@ -30,7 +30,7 @@ namespace Server
 
                 socket.Listen(10); 
 
-                Console.WriteLine("Сервер запущен. Ожидание подключений...");
+                Console.WriteLine("Server is running... Wait for clients");
 
                 while (true)
                 {
