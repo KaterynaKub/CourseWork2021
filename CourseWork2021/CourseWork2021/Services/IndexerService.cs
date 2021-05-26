@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CourseWork2021.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace CourseWork2021
 {
     public class IndexerService
     {
-        public Index Index { get; private set; }
+        public IIndex Index { get; private set; }
         public int CountOfThreads { get; set; }
 
         public string RootDir { get; set; } 
@@ -51,7 +52,7 @@ namespace CourseWork2021
                     List<string> words = result.Split(new[]{' ', ',', '.', '\"', ')', '(', ':', ';', '-','[',']','%','!','?','*','<','>'},StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
                     foreach (var word in words)
                     {
-                        Index.TryAddKey(word.ToLower(), file);
+                        Index.AddKey(word.ToLower(), file);
                     }
                 }
             }
