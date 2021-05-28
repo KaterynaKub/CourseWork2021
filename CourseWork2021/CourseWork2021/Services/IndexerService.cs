@@ -16,7 +16,7 @@ namespace CourseWork2021
 
         public string RootDir { get; set; } 
 
-        public IndexerService(int countThreads = 8, string root = @"K:\3 курс 2 семестр\parallel\test")
+        public IndexerService(int countThreads = 8, string root = @"K:\3 курс 2 семестр\parallel\courseWork\FilesForIndex\datasets\aclImdb")
         {
             CountOfThreads = countThreads;
             RootDir = root;
